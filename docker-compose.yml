@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  vlsu-bot:
+    build: .
+    container_name: vlsu_schedule_bot
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./.env:/app/.env:ro
+    environment:
+      - TZ=Europe/Moscow
+    env_file:
+      - .env
+
+  updater:
+    build: .
+    container_name: vlsu_schedule_updater
+    volumes:
+      - ./data:/app/data
+    command: >
+      sh -c "python -m app.bulk_parse --db /app/data/vlsu_schedule.db --forms 0 1 2"
