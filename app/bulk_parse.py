@@ -103,6 +103,8 @@ def db_save_lessons(conn: sqlite3.Connection, group_id: str, lessons: list[dict]
 
 # ---------- Main harvesting ----------
 def harvest_all(db_path: Path, forms: list[int], only_institute: Optional[str] = None, debug: bool = False, pause: float = 0.2):
+    db_path.parent.mkdir(parents=True, exist_ok=True)
+
     conn = sqlite3.connect(str(db_path))
     db_init(conn)
 
